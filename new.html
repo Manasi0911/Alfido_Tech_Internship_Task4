@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Creative To-Do List</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #74ebd5, #9face6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    .todo-container {
+      background-color: #ffffffcc;
+      padding: 30px 40px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 500px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    #taskInput {
+      width: 75%;
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      outline: none;
+    }
+
+    #addBtn {
+      width: 20%;
+      padding: 12px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      background-color: #28a745;
+      color: white;
+      cursor: pointer;
+      margin-left: 5%;
+      transition: 0.3s;
+    }
+
+    #addBtn:hover {
+      background-color: #218838;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+      margin-top: 20px;
+    }
+
+    li {
+      background-color: #f9f9f9;
+      margin: 10px 0;
+      padding: 12px;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: 0.2s;
+    }
+
+    li:hover {
+      background-color: #e6e6e6;
+    }
+
+    .removeBtn {
+      background-color: #dc3545;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: 0.3s;
+    }
+
+    .removeBtn:hover {
+      background-color: #c82333;
+    }
+
+    .empty-msg {
+      text-align: center;
+      color: #777;
+      margin-top: 20px;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="todo-container">
+    <h1>📝 My To-Do List</h1>
+    <div>
+      <input type="text" id="taskInput" placeholder="Enter a new task" />
+      <button id="addBtn">Add</button>
+    </div>
+    <ul id="taskList"></ul>
+    <p class="empty-msg" id="emptyMsg">No tasks yet! ✨</p>
+  </div>
+
+  <script>
+    const taskInput = document.getElementById("taskInput");
+    const addBtn = document.getElementById("addBtn");
+    const taskList = document.getElementById("taskList");
+    const emptyMsg = document.getElementById("emptyMsg");
+
+    function updateEmptyMessage() {
+      emptyMsg.style.display = taskList.children.length === 0 ? "block" : "none";
+    }
+
+    function createTask(taskText) {
+      const li = document.createElement("li");
+      li.textContent = taskText;
+
+      const removeBtn = document.createElement("button");
+      removeBtn.textContent = "Remove";
+      removeBtn.className = "removeBtn";
+      removeBtn.onclick = () => {
+        li.remove();
+        updateEmptyMessage();
+      };
+
+      li.appendChild(removeBtn);
+      taskList.appendChild(li);
+      updateEmptyMessage();
+    }
+
+    addBtn.addEventListener("click", () => {
+      const taskText = taskInput.value.trim();
+      if (taskText !== "") {
+        createTask(taskText);
+        taskInput.value = "";
+        taskInput.focus();
+      }
+    });
+
+    taskInput.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") {
+        addBtn.click();
+      }
+    });
+
+    updateEmptyMessage();
+  </script>
+
+</body>
+</html>
